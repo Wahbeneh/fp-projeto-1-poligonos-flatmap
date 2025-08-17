@@ -9,6 +9,8 @@ import javafx.scene.shape.Polygon;
 import javafx.stage.Stage;
 
 import java.awt.*;
+import java.awt.Color;
+import java.awt.Polygon;
 import java.util.List;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
@@ -87,16 +89,19 @@ public class PoligonosApp extends Application {
         final var root = new Pane();
         final var scene = new Scene(root, 800, 600);
 
-        for (final var listaPontos : pontosPoligonos) {
-            final var poligono = new Polygon();
-            for (final Point point : listaPontos) {
-                poligono.getPoints().addAll(point.x(), point.y());
-            }
-
-            poligono.setFill(Color.BLUE);
-            poligono.setStroke(Color.BLACK);
-            root.getChildren().add(poligono);
-        }
+        pontosPoligonos.stream()
+                .map(listaPontos -> {
+                    final var poligono = new java.awt.Polygon();
+                    poligono.getPoints().addAll(
+                            listaPontos.stream()
+                                    .flatMap(p -> Stream.of(p.x(), p.y()))
+                                    .toList()
+                    );
+                    poligono.setFill(java.awt.Color.BLUE);
+                    poligono.setStroke(java.awt.Color.BLACK);
+                    return poligono;
+                })
+                .forEach(root.getChildren():: add);
 
         final List<String> perimetros = perimetros().stream().map(p -> String.format("%.1f", p)).toList();
         final var label1 = newLabel("Perímetro dos Polígonos: " + perimetros, 500);
