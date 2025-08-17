@@ -9,8 +9,6 @@ import javafx.scene.shape.Polygon;
 import javafx.stage.Stage;
 
 import java.awt.*;
-import java.awt.Color;
-import java.awt.Polygon;
 import java.util.List;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
@@ -91,14 +89,14 @@ public class PoligonosApp extends Application {
 
         pontosPoligonos.stream()
                 .map(listaPontos -> {
-                    final var poligono = new java.awt.Polygon();
+                    final var poligono = new Polygon();
                     poligono.getPoints().addAll(
                             listaPontos.stream()
                                     .flatMap(p -> Stream.of(p.x(), p.y()))
                                     .toList()
                     );
-                    poligono.setFill(java.awt.Color.BLUE);
-                    poligono.setStroke(java.awt.Color.BLACK);
+                    poligono.setFill(Color.BLUE);
+                    poligono.setStroke(Color.BLACK);
                     return poligono;
                 })
                 .forEach(root.getChildren():: add);
