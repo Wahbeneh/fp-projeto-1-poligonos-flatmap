@@ -12,6 +12,7 @@ import java.awt.*;
 import java.util.List;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -132,8 +133,17 @@ public class PoligonosApp extends Application {
      * "triângulo", "pentágono", "hexágono" ou apenas um "polígono" geral quando tiver mais de 6 lados.
      */
     protected List<String> tipoPoligonos(){
+        return pontosPoligonos.stream()
+                .map(List :: size)
+                .map(tamanho -> switch (tamanho) {
+                    case 3 -> "Triângulo";
+                    case 4 -> "Quadrilátero";
+                    case 5 -> "Pentágono";
+                    case 6 -> "Hexágono";
+                    default -> "Triângulo";
 
-        return List.of();
+                })
+                .toList();
     }
 
     /**
