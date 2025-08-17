@@ -8,6 +8,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.util.List;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
@@ -131,7 +132,7 @@ public class PoligonosApp extends Application {
      * "triângulo", "pentágono", "hexágono" ou apenas um "polígono" geral quando tiver mais de 6 lados.
      */
     protected List<String> tipoPoligonos(){
-        // TODO Apague esta linha e a próxima e implemente seu código
+
         return List.of();
     }
 
@@ -176,8 +177,15 @@ public class PoligonosApp extends Application {
      * @return uma lista contendo o perímetro de cada polígono
      */
     protected List<Double> perimetros(){
-        // TODO Apague esta linha e a próxima e implemente seu código
-        return List.of();
+        return pontosPoligonos.stream()
+                .flatMap(lista -> {
+                    Point ultimoPonto = lista.get(lista.size()-1);
+                    Point  pontoFinal = lista.stream()
+                            .reduce(ultimoPonto, (pontoAnterior, pontoAtual) -> new Point(pontoAnterior, pontoAtual));
+                    return Stream.of(pontoFinal);
+                })
+                .map(Point :: distance)
+                .toList();
     }
 }
 
